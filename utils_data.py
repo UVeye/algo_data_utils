@@ -34,8 +34,11 @@ def parse_timestamp(created_at):
     return date, time
 
 
-def get_field(frame, v):
-    return frame.metadata[v] if v in frame.metadata else ''
+def get_field(frame, v, proc_if_str=True):
+    output = frame.metadata[v] if v in frame.metadata else ''
+    if proc_if_str and isinstance(output, str):
+        output = output.strip().lower()
+    return output
 
 
 # def get_date_time(frame):
@@ -45,7 +48,7 @@ def get_field(frame, v):
 
 
 def get_timestamp(frame):
-    created_at = get_field(frame, 'created_at')
+    created_at = get_field(frame, 'created_at', proc_if_str=False)
     timestamp = pd.to_datetime(created_at)
     return timestamp
 
@@ -89,12 +92,14 @@ def get_hour(frame):
     return hour
 
 
-def get_site_name(frame):
-    site_id = get_field(frame, 'siteId')
+def get_site_name(frame, strip_lower=True):
+    site_id = get_field(frame, 'siteId', proc_if_str=False)
     if site_id in site_id_to_name:
         site_name = site_id_to_name[site_id]
     else:
         site_name = 'unlisted__' + site_id
+    if strip_lower:
+        site_name = site_name.strip().lower()
     return site_name
 
 

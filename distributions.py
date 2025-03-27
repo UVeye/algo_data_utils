@@ -29,8 +29,8 @@ def see_distributions_clearml(attr_list, clearml_datasets, frame_query=None, cle
     print('\nattributes:')
     for field in stats:
         strings = stats[field]
-        if isinstance(strings[0], str):
-            strings = [s.strip().lower() for s in strings]
+        # if isinstance(strings[0], str):
+        #     strings = [s.strip().lower() for s in strings]
 
         plot_bars(strings, field, log_scale=False, x_ticks_num=False, clearml_logger=clearml_logger)
         # plot_bars(strings, field, log_scale=False, x_ticks_num='model' in field)
